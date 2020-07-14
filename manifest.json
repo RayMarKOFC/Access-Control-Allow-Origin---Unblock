@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "version": "0.1.4",
-  "name": "CORS Unblock",
+  "version": "0.1.5",
+  "name": "CORS Unblock - KOFC",
   "description": "No more CORS error by appending 'Access-Control-Allow-Origin: *' header to local and remote web requests when enabled",
   "permissions": [
     "storage",

@@ -10,18 +10,26 @@ const prefs = {
   'expose-headers-value': '*',
   'allow-headers': true
 };
+// const backgroundPage = chrome.extension.getBackgroundPage();
 
 const cors = {};
-cors.onHeadersReceived = ({responseHeaders}) => {
+cors.onHeadersReceived = ({initiator, originUrl, responseHeaders}) => {
   if (prefs['overwrite-origin'] === true) {
     const o = responseHeaders.find(({name}) => name.toLowerCase() === 'access-control-allow-origin');
+    let origin = '*';
+    if (prefs['allow-credentials'] === true) {
+      origin = initiator ||
+               (originUrl && (new URL(originUrl)).origin) ||
+               '*';
+    }
+    // backgroundPage.console.log('Res Origin: ', origin);
     if (o) {
-      o.value = '*';
+      o.value = origin;
     }
     else {
       responseHeaders.push({
         'name': 'Access-Control-Allow-Origin',
-        'value': '*'
+        'value': origin
       });
     }
   }
